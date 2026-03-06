@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish Galaxy ⭐ Chúc mừng Ngày Quốc tế Phụ nữ 8-3</title>
+    <meta name="description" content="Thiên hà lời chúc lung linh dành riêng cho những người phụ nữ tuyệt vời nhân ngày 8-3.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="galaxy-container">
+        <canvas id="stars-canvas"></canvas>
+        <div id="particles-js"></div>
+        
+        <header class="hero-section">
+            <h1 class="main-title">Tháng 3 của Nàng</h1>
+            <p class="subtitle">Tôn vinh những vì tinh tú tỏa sáng nhất — Phái đẹp 8.3</p>
+            <div class="scroll-instruction">
+                <span>Chạm vào một vì sao để nhận lời chúc từ Thiên hà</span>
+                <div class="mouse-icon"></div>
+            </div>
+        </header>
+
+        <div id="audio-control" class="audio-control">
+            <button id="toggle-audio" title="Bật/Tắt nhạc">
+                <span id="audio-icon">🔊</span>
+            </button>
+            <audio id="bg-music" loop autoplay>
+                <source src="assets/music/Just the Way You Are (Piano Version).mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div id="wish-overlay" class="hidden">
+            <div class="wish-card">
+                <button id="close-wish" aria-label="Đóng">&times;</button>
+                <div class="wish-content">
+                    <p id="wish-text"></p>
+                    <div class="wish-decoration">✨ ⭐ ✨</div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Made with 🤍 for the Stars of Our Lives</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "wish-galaxy-8-3",
+  "version": "1.0.0",
+  "description": "Thiên hà lời chúc dành cho phái đẹp nhân ngày 8-3",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve .",
+    "dev": "npx -y serve ."
+  },
+  "keywords": [
+    "8-3",
+    "women-day",
+    "galaxy",
+    "wish"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}

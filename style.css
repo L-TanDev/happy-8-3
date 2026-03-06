@@ -138,26 +138,16 @@ body::before {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(12px);
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0; /* Add space for scrolling on small screens */
-    overflow-y: auto; /* Enable scrolling for the whole overlay */
-    -webkit-overflow-scrolling: touch;
+    padding: 20px;
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.overlay::after { /* Spacer to ensure bottom content isn't cut off */
-    content: '';
-    display: block;
-    height: 40px;
-    width: 100%;
-    flex-shrink: 0;
 }
 
 .overlay.hidden {
@@ -168,20 +158,22 @@ body::before {
 
 .modal-card {
     position: relative;
-    width: 90%;
+    width: 95%;
     max-width: 600px;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 3rem 2rem;
+    padding: 3rem 1.5rem 2rem;
     border-radius: 30px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     text-align: center;
     transform: scale(0.85);
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     color: #fff;
-    flex-shrink: 0; /* Prevent the card from shrinking */
-    margin: auto; /* Center when scrolling */
+    display: flex;
+    flex-direction: column;
 }
+
+
 
 .overlay:not(.hidden) .modal-card {
     transform: scale(1);
@@ -230,8 +222,8 @@ body::before {
 }
 
 .gallery-img {
-    width: 280px;
-    height: 400px;
+    width: 220px;
+    height: 320px;
     object-fit: cover;
     border-radius: 20px;
     border: 2px solid var(--glass-border);
@@ -434,11 +426,24 @@ body::before {
     }
     
     .wish-content p {
-        font-size: 1.25rem;
+        font-size: 1.15rem; /* Shrink font size */
         padding: 0 5px;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+        line-height: 1.5;
+    }
+    
+    .letter-text {
+        font-size: 1.15rem; /* Shrink for crush letter as well */
+        line-height: 1.6;
     }
 
+    .modal-title {
+        font-size: 1.6rem;
+    }
+    
+    .modal-card {
+        padding: 3.5rem 1rem 1.5rem;
+    }
     .audio-control {
         bottom: 100px; /* Move up to avoid nav overlap */
         right: 20px;
@@ -471,6 +476,12 @@ body::before {
 
     .scroll-instruction span {
         font-size: 0.7rem;
+    }
+
+    .gallery-img {
+        width: 160px;
+        height: 240px;
+        border-radius: 12px;
     }
 }
 

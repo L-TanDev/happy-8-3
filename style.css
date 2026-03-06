@@ -290,13 +290,20 @@ body::before {
 
     .wish-card {
         width: 92%;
-        padding: 2rem 1.2rem;
-        border-radius: 20px;
+        padding: 4rem 1.5rem 3rem; /* Increase top padding for the X button */
+        border-radius: 24px;
+    }
+    
+    #close-wish {
+        top: 15px;
+        right: 15px;
+        font-size: 1.8rem;
     }
     
     .wish-content p {
         font-size: 1.25rem;
         padding: 0 5px;
+        margin-bottom: 1.5rem;
     }
 
     .audio-control {

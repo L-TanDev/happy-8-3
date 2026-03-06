@@ -1,45 +1,52 @@
 /**
  * Wish Galaxy - Independent Women's Day 8-3
- * Premium interactive galaxy experience.
+ * Premium interactive galaxy experience with categories.
  */
 
 const canvas = document.getElementById('stars-canvas');
 const ctx = canvas.getContext('2d');
-const overlay = document.getElementById('wish-overlay');
-const wishText = document.getElementById('wish-text');
-const closeBtn = document.getElementById('close-wish');
-const toggleAudio = document.getElementById('toggle-audio');
 const bgMusic = document.getElementById('bg-music');
 const audioIcon = document.getElementById('audio-icon');
+const toggleAudio = document.getElementById('toggle-audio');
+
+// Overlays
+const wishOverlay = document.getElementById('wish-overlay');
+const galleryOverlay = document.getElementById('gallery-overlay');
+const crushOverlay = document.getElementById('crush-overlay');
+const wishText = document.getElementById('wish-text');
+
+// Nav items
+const navItems = document.querySelectorAll('.nav-item');
 
 let width, height;
 let stars = [];
 let particles = [];
-const STAR_COUNT = 150;
-const SPEED = 0.05;
+let currentMode = 'stars'; // 'stars', 'gallery', 'crush'
 
-const WISHES = [
-    "Chúc phái đẹp ngày 8-3 luôn rạng rỡ như trăng rằm, xinh đẹp như đoá hoa và hạnh phúc như chính nụ cười của bạn! ✨",
-    "Mong bạn luôn tự tin, kiêu hãnh và là phiên bản tuyệt vời nhất của chính mình. Chúc mừng 8-3! 🌸",
-    "Gửi tới người phụ nữ tuyệt vời nhất: Chúc bạn ngày 8-3 tràn đầy niềm vui, sự ngọt ngào và những món quà bất ngờ. 🎁",
-    "Ngày hôm nay là của bạn! Hãy toả sáng theo cách riêng, yêu thương bản thân thật nhiều nhé! ❤️",
-    "Chúc bạn luôn có đủ dũng khí để thực hiện ước mơ, đủ bao dung để thấu hiểu và đủ hạnh phúc để sẻ chia. 💖",
-    "Bạn là một vì sao lấp lánh nhất trong thiên hà này. Đừng bao giờ ngừng toả sáng nhé! ⭐",
-    "Chúc các chị em 8-3 mãi xinh tươi, giỏi việc nước, đảm việc nhà và luôn được yêu chiều hết mực! 💐",
-    "Một ngày 8-3 thật ý nghĩa, đầy ắp tiếng cười và những kỉ niệm đáng nhớ bên người thương yêu. 🥂",
-    "Chúc bạn mỗi ngày đều là 8-3, luôn được trân trọng, thấu hiểu và ngập tràn hạnh phúc. 🌞",
-    "Bạn chính là điều kì diệu của thế giới này. Chúc mừng Ngày Quốc tế Phụ nữ! 🌍✨"
+const PUBLIC_WISHES = [
+    "Chúc phái đẹp ngày 8-3 luôn rạng rỡ như trăng rằm, xinh đẹp như đoá hoa! ✨",
+    "Mong bạn luôn tự tin, kiêu hãnh và là phiên bản tuyệt vời nhất của chính mình. 🌸",
+    "Gửi tới người phụ nữ tuyệt vời nhất: Chúc bạn ngày 8-3 tràn đầy niềm vui. 🎁",
+    "Ngày hôm nay là của bạn! Hãy toả sáng theo cách riêng nhé! ❤️",
+    "Chúc bạn luôn có đủ hạnh phúc để sẻ chia. 💖",
+    "Bạn là một vì sao lấp lánh nhất trong thiên hà này. ⭐"
 ];
 
-// Initialize dimensions
+const CRUSH_WISHES = [
+    "Có những ngày thường bỗng trở nên đặc biệt, chỉ vì có người ấy xuất hiện trong Thiên hà của người nào đó...",
+    "Tháng Ba năm nay thật đẹp, vì bầu trời bỗng dưng có thêm một vì sao lấp lánh như người ấy. ✨",
+    "Hy vọng người ấy luôn hạnh phúc, vì nụ cười của người ấy chính là thuốc độc ngọt ngào nhất 🌹",
+    "Giữa muôn vàn những điều xa xôi, có một vì sao cứ âm thầm tỏa sáng trong lòng một người nào đó từng ngày...",
+    "Mong người ấy mãi rạng rỡ như thế nhé, vì nụ cười ấy từ lâu đã là cả bầu trời đối với một người nào đó... ❤️"
+];
+
 function init() {
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-    
-    // Adjust star count for mobile performance
-    const count = width < 768 ? 80 : STAR_COUNT;
+
+    const count = width < 768 ? 80 : 150;
     createStars(count);
 }
 
@@ -51,32 +58,29 @@ class Star {
     reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.z = Math.random() * width; 
+        this.z = Math.random() * width;
         this.size = Math.random() * 2 + 0.5;
         this.opacity = Math.random();
         this.twinkleFactor = Math.random() * 0.05 + 0.01;
-        this.color = this.getRandomColor();
-        this.isInteractive = Math.random() > 0.6; 
-        
-        if (this.isInteractive) {
-            this.size = Math.random() * 5 + 4; 
+
+        // Randomly assign type
+        const typeRoll = Math.random();
+        if (typeRoll > 0.85) {
+            this.type = 'CRUSH';
+            this.color = '#ff4d6d'; // Romantic Pink/Red
+            this.size = Math.random() * 6 + 5;
+        } else if (typeRoll > 0.6) {
+            this.type = 'WISH';
+            this.color = '#ffd700'; // Gold
+            this.size = Math.random() * 4 + 3;
+        } else {
+            this.type = 'DECOR';
+            this.color = '#ffffff';
         }
     }
 
-    getRandomColor() {
-        const colors = [
-            '#ffffff', // White
-            '#fff7d1', // Soft Yellow
-            '#ffd1dc', // Soft Pink
-            '#d1f2ff', // Soft Blue
-            '#f0e68c'  // Khaki Gold
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
     update() {
-        this.z -= SPEED * 10;
-        
+        this.z -= 0.5; // Constant speed
         if (this.z <= 0) {
             this.reset();
             this.z = width;
@@ -92,34 +96,35 @@ class Star {
         const x = (this.x - width / 2) * (width / this.z);
         const y = (this.y - height / 2) * (width / this.z);
         const s = this.size * (width / this.z);
-        
+
         const finalX = x + width / 2;
         const finalY = y + height / 2;
 
         if (finalX < 0 || finalX > width || finalY < 0 || finalY > height) return;
 
         ctx.globalCompositeOperation = 'screen';
-        ctx.beginPath();
-        
-        if (this.isInteractive) {
+
+        if (this.type !== 'DECOR') {
             const glow = ctx.createRadialGradient(finalX, finalY, 0, finalX, finalY, s * 4);
             glow.addColorStop(0, this.color);
-            glow.addColorStop(0.3, this.color + 'aa');
             glow.addColorStop(1, 'transparent');
             ctx.fillStyle = glow;
+            ctx.beginPath();
             ctx.arc(finalX, finalY, s * 4, 0, Math.PI * 2);
+            ctx.fill();
         } else {
             ctx.fillStyle = this.color;
             ctx.globalAlpha = this.opacity;
+            ctx.beginPath();
             ctx.arc(finalX, finalY, s, 0, Math.PI * 2);
+            ctx.fill();
         }
-        
-        ctx.fill();
+
         ctx.globalAlpha = 1;
 
         this.screenX = finalX;
         this.screenY = finalY;
-        this.screenS = s * 4; 
+        this.screenS = s * 4;
     }
 }
 
@@ -134,7 +139,6 @@ class Particle {
         this.opacity = 1;
         this.friction = 0.95;
     }
-
     update() {
         this.speedX *= this.friction;
         this.speedY *= this.friction;
@@ -142,7 +146,6 @@ class Particle {
         this.y += this.speedY;
         this.opacity -= 0.02;
     }
-
     draw() {
         ctx.globalAlpha = this.opacity;
         ctx.fillStyle = this.color;
@@ -173,12 +176,10 @@ function animate() {
         star.draw();
     });
 
-    particles.forEach((particle, index) => {
-        particle.update();
-        particle.draw();
-        if (particle.opacity <= 0) {
-            particles.splice(index, 1);
-        }
+    particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.opacity <= 0) particles.splice(i, 1);
     });
 
     requestAnimationFrame(animate);
@@ -191,55 +192,80 @@ canvas.addEventListener('click', (e) => {
     const clickY = e.clientY - rect.top;
 
     const clickedStar = stars.find(star => {
-        if (!star.isInteractive) return false;
+        if (star.type === 'DECOR') return false;
         const dx = star.screenX - clickX;
         const dy = star.screenY - clickY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < star.screenS * 1.5;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        return dist < star.screenS * 1.5;
     });
 
     if (clickedStar) {
         createExplosion(clickedStar.screenX, clickedStar.screenY, clickedStar.color);
-        setTimeout(() => showWish(), 400);
+        setTimeout(() => {
+            if (clickedStar.type === 'CRUSH') {
+                showModal('wish', CRUSH_WISHES);
+            } else {
+                showModal('wish', PUBLIC_WISHES);
+            }
+        }, 400);
     }
 });
 
-function showWish() {
-    const randomWish = WISHES[Math.floor(Math.random() * WISHES.length)];
-    wishText.innerText = randomWish;
-    overlay.classList.remove('hidden');
+function showModal(id, list = null) {
+    if (id === 'wish' && list) {
+        wishText.innerText = list[Math.floor(Math.random() * list.length)];
+        wishOverlay.classList.remove('hidden');
+    } else if (id === 'gallery') {
+        galleryOverlay.classList.remove('hidden');
+    } else if (id === 'crush') {
+        crushOverlay.classList.remove('hidden');
+    }
 }
 
-closeBtn.addEventListener('click', () => {
-    overlay.classList.add('hidden');
+// Close buttons
+document.querySelectorAll('.close-modal').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.overlay').forEach(ov => ov.classList.add('hidden'));
+
+        // Reset navigation to "Điều ước" (Stars)
+        navItems.forEach(i => i.classList.remove('active'));
+        document.getElementById('nav-stars').classList.add('active');
+    });
 });
 
-overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) {
-        overlay.classList.add('hidden');
-    }
+// Navigation
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        navItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        const id = item.id;
+        if (id === 'nav-gallery') {
+            showModal('gallery');
+        } else if (id === 'nav-crush') {
+            showModal('crush');
+        } else {
+            // General Stars mode - no modal, just resets view
+            document.querySelectorAll('.overlay').forEach(ov => ov.classList.add('hidden'));
+        }
+    });
 });
 
-// Audio Logic
+// Audio
 const startAudio = () => {
     bgMusic.play().then(() => {
         audioIcon.innerText = '🔊';
-        // Remove listeners once it starts
         document.removeEventListener('click', startAudio);
         document.removeEventListener('touchstart', startAudio);
-    }).catch(e => {
-        console.log("Autoplay blocked, waiting for interaction...");
-    });
+    }).catch(() => { });
 };
 
-// Start playback as soon as possible
 window.addEventListener('load', startAudio);
-// Also listen for first interaction as a fallback
 document.addEventListener('click', startAudio);
 document.addEventListener('touchstart', startAudio);
 
 toggleAudio.addEventListener('click', (e) => {
-    e.stopPropagation(); // Avoid triggering document click
+    e.stopPropagation();
     if (bgMusic.paused) {
         bgMusic.play();
         audioIcon.innerText = '🔊';
@@ -250,7 +276,5 @@ toggleAudio.addEventListener('click', (e) => {
 });
 
 window.addEventListener('resize', init);
-
-// Start
 init();
 animate();

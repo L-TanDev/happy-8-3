@@ -1,28 +1,49 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wish Galaxy ⭐ Chúc mừng Ngày Quốc tế Phụ nữ 8-3</title>
-    <meta name="description" content="Thiên hà lời chúc lung linh dành riêng cho những người phụ nữ tuyệt vời nhân ngày 8-3.">
+    <meta name="description"
+        content="Thiên hà lời chúc lung linh dành riêng cho những người phụ nữ tuyệt vời nhân ngày 8-3.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="galaxy-container">
         <canvas id="stars-canvas"></canvas>
         <div id="particles-js"></div>
-        
-        <header class="hero-section">
+
+        <header class="hero-section" id="hero-section">
             <h1 class="main-title">Tháng 3 của Nàng</h1>
             <p class="subtitle">Tôn vinh những vì tinh tú tỏa sáng nhất — Phái đẹp 8.3</p>
             <div class="scroll-instruction">
-                <span>Chạm vào một vì sao để nhận lời chúc từ Thiên hà</span>
+                <span>Chạm vào một vì sao bất kì để khám phá</span>
                 <div class="mouse-icon"></div>
             </div>
         </header>
+
+        <!-- New Navigation Menu -->
+        <nav class="galaxy-nav">
+            <button class="nav-item" id="nav-gallery" title="Khoảnh khắc">
+                <span class="nav-icon">📸</span>
+                <span class="nav-label">Kỉ niệm</span>
+            </button>
+            <button class="nav-item active" id="nav-stars" title="Thiên hà lời chúc">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-label">Điều ước</span>
+            </button>
+            <button class="nav-item" id="nav-crush" title="Dành riêng cho Nàng">
+                <span class="nav-icon">❤️</span>
+                <span class="nav-label">Gửi Nàng</span>
+            </button>
+        </nav>
 
         <div id="audio-control" class="audio-control">
             <button id="toggle-audio" title="Bật/Tắt nhạc">
@@ -33,9 +54,72 @@
             </audio>
         </div>
 
-        <div id="wish-overlay" class="hidden">
-            <div class="wish-card">
-                <button id="close-wish" aria-label="Đóng">&times;</button>
+        <!-- Photo Gallery Popup -->
+        <div id="gallery-overlay" class="hidden overlay">
+            <div class="modal-card gallery-card">
+                <button class="close-modal" id="close-gallery">&times;</button>
+                <h2 class="modal-title">Khoảnh khắc tỏa sáng</h2>
+                <div class="gallery-container">
+                    <!-- Bạn hãy thêm ảnh vào thư mục assets/images/ và đổi tên cho khớp nhé -->
+                    <div class="gallery-track">
+                        <!-- Set 1 -->
+                        <img src="assets/images/anh1.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh2.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh3.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh4.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh5.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh6.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh7.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh8.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh9.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh10.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh11.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh12.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh13.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <!-- Set 2 (Duplicate for seamless loop) -->
+                        <img src="assets/images/anh1.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh2.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh3.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh4.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh5.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh6.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh7.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh8.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh9.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh10.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh11.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh12.jpg" alt="Khoảnh khắc" class="gallery-img">
+                        <img src="assets/images/anh13.jpg" alt="Khoảnh khắc" class="gallery-img">
+                    </div>
+                </div>
+                <p class="gallery-caption">Lấp lánh như những vì sao trên trời cao...</p>
+            </div>
+        </div>
+
+        <!-- Crush Letter Popup -->
+        <div id="crush-overlay" class="hidden overlay">
+            <div class="modal-card crush-card">
+                <button class="close-modal" id="close-crush">&times;</button>
+                <div class="crush-content">
+                    <div class="heart-pulse">✨ ❤️ ✨</div>
+                    <h2 class="modal-title">Gửi người ấy</h2>
+                    <p class="letter-text">
+                        8-3 năm nay, chẳng cầu mong gì quá xa xôi, chỉ hy vọng mỗi ngày trôi qua người ấy đều tràn ngập
+                        niềm vui và sự bình yên.
+                        Có những điều đôi khi chẳng cần nói ra hết, nhưng hy vọng người ấy có thể cảm nhận được chân
+                        thành qua từng ngôi sao lấp lánh nơi đây.
+                        Chúc cho nụ cười ấy mãi luôn rạng rỡ, vì đó chính là "cả bầu trời" của một người nào đó...
+                        Mãi hạnh phúc và xinh đẹp như thế nhé!
+                    </p>
+                    <div class="letter-signature">Từ một người luôn dõi theo người ấy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Default Wish Overlay (re-styled) -->
+        <div id="wish-overlay" class="hidden overlay">
+            <div class="modal-card wish-card">
+                <button class="close-modal" id="close-wish">&times;</button>
                 <div class="wish-content">
                     <p id="wish-text"></p>
                     <div class="wish-decoration">✨ ⭐ ✨</div>
@@ -50,4 +134,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

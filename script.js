@@ -222,6 +222,96 @@ function showModal(id, list = null) {
     }
 }
 
+// Gallery JS-driven scroll with drag & momentum
+(function setupGallery() {
+    const container = document.querySelector('.gallery-container');
+    const track = document.querySelector('.gallery-track');
+    if (!track || !container) return;
+
+    let offset = 0;          // Current scroll position
+    let velocity = 1.2;      // Auto-scroll speed (px/frame)
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragLastX = 0;
+    let dragVelocity = 0;
+    let halfWidth = 0;
+
+    // Calculate the half-width once images load
+    const calcHalf = () => {
+        halfWidth = track.scrollWidth / 2;
+    };
+    setTimeout(calcHalf, 500); // Give images time to load
+    window.addEventListener('resize', calcHalf);
+
+    function tick() {
+        if (!isDragging) {
+            // Apply momentum decay after drag
+            if (Math.abs(dragVelocity) > 0.1) {
+                offset -= dragVelocity;
+                dragVelocity *= 0.92; // Friction
+            } else {
+                offset -= velocity; // Default auto-scroll
+            }
+        }
+
+        // Bidirectional infinite loop
+        if (halfWidth > 0) {
+            // Scrolled too far left → jump forward
+            if (offset <= -halfWidth) {
+                offset += halfWidth;
+            }
+            // Dragged too far right (past start) → jump backward
+            if (offset >= 0) {
+                offset -= halfWidth;
+            }
+        }
+
+        track.style.transform = `translateX(${offset}px)`;
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+
+    // --- Drag support ---
+    const getX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+
+    const onStart = (e) => {
+        isDragging = true;
+        dragStartX = getX(e);
+        dragLastX = dragStartX;
+        dragVelocity = 0;
+        track.style.cursor = 'grabbing';
+    };
+
+    const onMove = (e) => {
+        if (!isDragging) return;
+        const x = getX(e);
+        const dx = x - dragLastX;
+        dragVelocity = dx;
+        offset += dx;
+        dragLastX = x;
+    };
+
+    const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.cursor = 'grab';
+        // dragVelocity carries the momentum into tick()
+    };
+
+    // Mouse
+    track.addEventListener('mousedown', onStart);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onEnd);
+
+    // Touch
+    track.addEventListener('touchstart', onStart, { passive: true });
+    track.addEventListener('touchmove', onMove, { passive: true });
+    track.addEventListener('touchend', onEnd);
+
+    track.style.cursor = 'grab';
+})();
+
 // Close buttons
 document.querySelectorAll('.close-modal').forEach(btn => {
     btn.addEventListener('click', () => {

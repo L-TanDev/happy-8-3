@@ -209,17 +209,11 @@ body::before {
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: scrollGallery 40s linear infinite;
+    will-change: transform;
+    user-select: none;
 }
 
-.gallery-track:hover {
-    animation-play-state: paused;
-}
-
-@keyframes scrollGallery {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 10px)); } /* Scroll half the width (the original set) */
-}
+/* Hover pause removed - handled via JS */
 
 .gallery-img {
     width: 220px;
